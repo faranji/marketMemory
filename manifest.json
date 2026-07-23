@@ -1,0 +1,28 @@
+{
+  "project": "Market Memory MVP V2",
+  "entrypoint": "app.py",
+  "tables": [
+    "ingestion_runs",
+    "raw_news_items",
+    "raw_market_bars",
+    "assets",
+    "event_clusters",
+    "news_articles",
+    "article_assets",
+    "market_prices",
+    "article_asset_labels",
+    "model_versions",
+    "news_embeddings",
+    "prediction_runs",
+    "prediction_horizons",
+    "historical_analogues",
+    "model_evaluations"
+  ],
+  "file_count": 56,
+  "ingestion_scripts": [
+    "01_ingest_news_json.py",
+    "02_ingest_market_json.py",
+    "03_promote_alpha_vantage_news.py",
+    "04_promote_market_prices.py"
+  ]
+}

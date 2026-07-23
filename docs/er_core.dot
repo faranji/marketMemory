@@ -1,0 +1,102 @@
+
+digraph G {
+  graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.45", ranksep="0.75", splines=ortho];
+  node [shape=plain, fontname="Arial"];
+  edge [color="#6B7280", arrowsize=0.7];
+
+  ingestion [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>ingestion_runs</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">source_type</TD></TR>
+      <TR><TD ALIGN="LEFT">source_name</TD></TR><TR><TD ALIGN="LEFT">status</TD></TR>
+    </TABLE>>];
+
+  raw_news [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>raw_news_items</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">ingestion_run_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">payload JSONB</TD></TR><TR><TD ALIGN="LEFT">payload_hash</TD></TR>
+    </TABLE>>];
+
+  assets [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>assets</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">ticker UNIQUE</TD></TR>
+      <TR><TD ALIGN="LEFT">benchmark_asset_id FK</TD></TR>
+    </TABLE>>];
+
+  news [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>news_articles</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">raw_news_item_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">primary_asset_id FK</TD></TR><TR><TD ALIGN="LEFT">published_at</TD></TR>
+      <TR><TD ALIGN="LEFT">leakage_status</TD></TR>
+    </TABLE>>];
+
+  article_assets [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>article_assets</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">article_id PK/FK</TD></TR><TR><TD ALIGN="LEFT">asset_id PK/FK</TD></TR>
+      <TR><TD ALIGN="LEFT">relevance_score</TD></TR>
+    </TABLE>>];
+
+  prices [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>market_prices</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">asset_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">observed_at</TD></TR><TR><TD ALIGN="LEFT">adjusted_close</TD></TR>
+    </TABLE>>];
+
+  labels [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>article_asset_labels</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">article_id FK</TD></TR><TR><TD ALIGN="LEFT">asset_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">abnormal_return_1/3/5/10/20d</TD></TR>
+      <TR><TD ALIGN="LEFT">peak_day / reversal / impact_shape</TD></TR>
+    </TABLE>>];
+
+  embeddings [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>news_embeddings</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">article_id FK</TD></TR><TR><TD ALIGN="LEFT">model_version_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">embedding vector(384)</TD></TR>
+    </TABLE>>];
+
+  runs [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>prediction_runs</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">id PK</TD></TR><TR><TD ALIGN="LEFT">query_article_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">asset_id FK</TD></TR><TR><TD ALIGN="LEFT">evidence_count</TD></TR>
+    </TABLE>>];
+
+  horizons [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>prediction_horizons</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">prediction_run_id FK</TD></TR><TR><TD ALIGN="LEFT">horizon_days</TD></TR>
+      <TR><TD ALIGN="LEFT">UP / NEUTRAL / DOWN probabilities</TD></TR>
+      <TR><TD ALIGN="LEFT">expected return + interval</TD></TR>
+    </TABLE>>];
+
+  analogues [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+      <TR><TD BGCOLOR="#0F6B8F"><FONT COLOR="white"><B>historical_analogues</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">prediction_run_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">historical_article_id FK</TD></TR>
+      <TR><TD ALIGN="LEFT">similarities / weight / returns</TD></TR>
+    </TABLE>>];
+
+  ingestion -> raw_news;
+  raw_news -> news;
+  assets -> assets [label=" benchmark"];
+  news -> article_assets;
+  assets -> article_assets;
+  assets -> prices;
+  news -> labels;
+  assets -> labels;
+  news -> embeddings;
+  news -> runs;
+  assets -> runs;
+  runs -> horizons;
+  runs -> analogues;
+  news -> analogues;
+}

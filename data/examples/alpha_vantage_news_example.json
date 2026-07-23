@@ -1,0 +1,36 @@
+{
+  "items": "1",
+  "sentiment_score_definition": "x",
+  "relevance_score_definition": "x",
+  "feed": [
+    {
+      "title": "Alphabet expands AI infrastructure spending",
+      "url": "https://example.com/article-1?utm_source=demo",
+      "time_published": "20260723T093000",
+      "authors": [
+        "Example Author"
+      ],
+      "summary": "The company announced more AI infrastructure investment.",
+      "banner_image": null,
+      "source": "Example Source",
+      "category_within_source": "Technology",
+      "source_domain": "example.com",
+      "topics": [
+        {
+          "topic": "Technology",
+          "relevance_score": "0.95"
+        }
+      ],
+      "overall_sentiment_score": 0.2,
+      "overall_sentiment_label": "Somewhat-Bullish",
+      "ticker_sentiment": [
+        {
+          "ticker": "GOOGL",
+          "relevance_score": "0.98",
+          "ticker_sentiment_score": "0.23",
+          "ticker_sentiment_label": "Somewhat-Bullish"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.marketmemo/
+venv/
+.env
+.streamlit/secrets.toml
+.DS_Store
+sql/
