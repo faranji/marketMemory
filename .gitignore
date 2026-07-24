@@ -1,9 +1,11 @@
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.marketmemo/
-venv/
 .env
 .streamlit/secrets.toml
+
+.marketmemo/
+.venv/
+venv/
+
+__pycache__/
+*.pyc
+.pytest_cache/
 .DS_Store
-sql/
