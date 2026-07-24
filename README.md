@@ -20,16 +20,3 @@ By design, instead of providing strict buy/sell advice, it offers data-backed in
 * **Data Sources:** 
   * News Feed: Alpha Vantage API.
   * Market Data (OHLCV): Yahoo Finance.
-
-
-## Supabase sırası
-
-1. Yeni bir Supabase projesi aç.
-2. `sql/schema.sql` çalıştır.
-3. `sql/seed_assets.sql` çalıştır.
-4. `.env.example` → `.env` kopyala; backend secret key ekle.
-5. JSON dosyalarını `data/raw/news` ve `data/raw/market` altına koy.
-6. Ham ingestion scriptlerini çalıştır.
-7. Temizleme, etiket, embedding ve model scriptlerini sırayla geliştir.
-8. `.streamlit/secrets.toml.example` → `.streamlit/secrets.toml` kopyala.
-9. Publishable key ekle ve `USE_MOCK_DATA=false` yap.
