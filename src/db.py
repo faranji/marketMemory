@@ -1,18 +1,13 @@
-from __future__ import annotations
+"""One validated Supabase backend client for trusted scripts."""
+import os
+from dotenv import load_dotenv
+from supabase import Client,create_client
 
-import streamlit as st
-from supabase import Client, create_client
-
-from src.config import get_settings
-
-
-@st.cache_resource(show_spinner=False)
-def get_supabase_client() -> Client | None:
-    settings = get_settings()
-
-    if settings.use_mock_data:
-        return None
-    if not settings.supabase_url or not settings.supabase_key:
-        return None
-
-    return create_client(settings.supabase_url, settings.supabase_key)
+def get_supabase_client()->Client:
+    # WHY: repeated connection code causes inconsistent environment names.
+    load_dotenv()
+    url=os.getenv('SUPABASE_URL'); key=os.getenv('SUPABASE_SECRET_KEY')
+    if not url or not key:
+        raise RuntimeError('SUPABASE_URL and SUPABASE_SECRET_KEY are required.')
+    # Never print the secret key and never expose this client in browser code.
+    return create_client(url,key)
